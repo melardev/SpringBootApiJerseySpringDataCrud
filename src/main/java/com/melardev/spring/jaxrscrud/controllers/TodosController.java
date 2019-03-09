@@ -78,9 +78,17 @@ public class TodosController {
         Optional<Todo> optionalTodo = todosRepository.findById(id);
         if (optionalTodo.isPresent()) {
             Todo todo = optionalTodo.get();
-            todo.setTitle(todoInput.getTitle());
-            todo.setDescription(todoInput.getDescription());
+
+            String title = todoInput.getTitle();
+            if (title != null)
+                todo.setTitle(title);
+
+            String description = todoInput.getDescription();
+            if (description != null)
+                todo.setDescription(description);
+
             todo.setCompleted(todoInput.isCompleted());
+
             return Response.ok()
                     .entity(todosRepository.save(optionalTodo.get()))
                     .build();
